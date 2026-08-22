@@ -1,230 +1,50 @@
-# Docuniqo
+# Welcome to your Expo app 👋
 
-Smart Document Management & Productivity Platform
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-Docuniqo is a next-generation document management and productivity application designed to simplify how users capture, organize, manage, and share digital documents securely. Built with a mobile-first approach, Docuniqo combines AI-powered organization, intelligent workflows, and seamless accessibility into one unified ecosystem.
+## Get started
 
----
+1. Install dependencies
 
-## Overview
+   ```bash
+   npm install
+   ```
 
-Docuniqo aims to create a smarter and more intuitive document experience by reducing manual organization and improving accessibility through automation and intelligent insights.
+2. Start the app
 
-The platform allows users to:
+   ```bash
+   npx expo start
+   ```
 
-- Scan and store documents
-- Organize files intelligently
-- Retrieve documents instantly
-- Share files securely
-- Sync across multiple devices
+In the output, you'll find options to open the app in a
 
----
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-## Vision
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-In an era of digital overload, Docuniqo is designed to become a modern intelligent document ecosystem that enhances productivity, minimizes clutter, and simplifies document workflows for both personal and professional use.
+## Get a fresh project
 
----
+When you're ready, run:
 
-## Core Features
+```bash
+npm run reset-project
+```
 
-### Smart Document Scanning
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-- Real-time document scanning
-- Automatic edge detection
-- Perspective correction
-- AI-based enhancement filters
-- Black & white and color modes
+## Learn more
 
----
+To learn more about developing your project with Expo, look at the following resources:
 
-### OCR & Intelligent Search
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-- Optical Character Recognition (OCR)
-- Extract text from scanned documents
-- Search documents using keywords
-- Smart indexing for faster retrieval
+## Join the community
 
----
+Join our community of developers creating universal apps.
 
-### AI-Based Categorization
-
-- Automatic document classification
-- Smart tag suggestions
-- AI-generated metadata
-- Adaptive smart folders based on user behavior
-
----
-
-### Cloud Synchronization
-
-- Multi-device access
-- Secure cloud backup
-- Cross-platform synchronization
-- Real-time document availability
-
----
-
-### Secure File Management
-
-- End-to-end encryption concepts
-- Secure document sharing
-- Access control and privacy-focused architecture
-- Local-first storage approach with optional cloud sync
-
----
-
-### Smart Organization
-
-- Folder and workspace management
-- Favorites and pinned documents
-- Recent activity tracking
-- Intelligent recommendations
-
----
-
-### Productivity Integration
-
-- Calendar integration
-- Task management compatibility
-- Workflow automation concepts
-- Productivity-focused dashboard
-
----
-
-## Platform
-
-| Platform      | Status       |
-| ------------- | ------------ |
-| Android       | Planned      |
-| iOS           | Planned      |
-| Web Dashboard | Future Scope |
-
----
-
-## Technology Stack (Planned)
-
-### Frontend
-
-- React Native Expo
-- TypeScript
-- NativeWind / Tailwind
-
-### Local Storage
-
-- Expo FileSystem
-- Expo SQLite
-- MMKV Storage
-
-### Document Processing
-
-- OCR Engine
-- AI Tagging System
-- PDF Generation & Compression
-
-### Cloud & Backend (Future Scope)
-
-- Node.js / Express
-- PostgreSQL
-- Cloud Storage Integration
-- Authentication & Sync Services
-
----
-
-## Design Philosophy
-
-Docuniqo focuses on:
-
-- Minimalism
-- Smooth user experience
-- Clean typography
-- Fast interactions
-- Privacy-first architecture
-- Modern productivity-inspired UI
-
-The interface is designed to reduce friction and improve document workflows through intuitive interactions and intelligent automation.
-
----
-
-## UI & Design Inspiration
-
-### Modern Minimal Interface
-
-- Smart dashboard
-- Dynamic document previews
-- Adaptive folders
-- AI recommendation cards
-
----
-
-## Future Roadmap
-
-### Phase 1
-
-- Document scanning
-- PDF generation
-- Local storage
-- Folder management
-- Basic OCR
-
-### Phase 2
-
-- AI categorization
-- Cloud synchronization
-- Cross-device access
-- Smart search
-
-### Phase 3
-
-- AI insights
-- Automated workflows
-- Collaboration tools
-- Business workspace features
-
----
-
-## Target Audience
-
-- Students
-- Professionals
-- Freelancers
-- Small businesses
-- Teams & organizations
-- Productivity-focused users
-
----
-
-## Key Goals
-
-- Simplify document management
-- Improve digital organization
-- Enhance productivity
-- Reduce manual filing
-- Provide secure accessibility
-- Create an intelligent document ecosystem
-
----
-
-## Project Status
-
-Concept Stage / Prototype Development Phase
-
-Docuniqo is currently in its conceptual and prototype development phase, with plans to evolve into a scalable and intelligent document management platform.
-
----
-
-## Contribution
-
-Contributions, ideas, and suggestions are welcome as the project evolves.
-
----
-
-## License
-
-This project is currently under private conceptual development.
-
----
-
-## Tagline
-
-Smart Documents. Simplified.
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ReactNativeApps",
-    "slug": "ReactNativeApps",
+    "name": "Docuniqo",
+    "slug": "Docuniqo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "reactnativeapps",
+    "scheme": "docuniqo",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
