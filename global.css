@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* for debug element in the screen */
+@layer utilities {
+  .borderr {
+    @apply border-2 border-red-500 rounded-lg;
+  }
+}

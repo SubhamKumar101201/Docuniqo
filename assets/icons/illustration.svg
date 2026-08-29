@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <!-- Container with rounded bottom corners matching the screenshot -->
+  <g clip-path="url(#rounded-card)">
+    <!-- Layer 1: Topmost Lightest Mint Wave -->
+    <path
+      d="M 0 385 C 100 350, 220 280, 400 60 L 400 400 L 0 400 Z"
+      fill="#E6F7F5"
+    />
+
+    <!-- Layer 2: Second Light Mint Wave -->
+    <path
+      d="M 0 388 C 120 370, 240 280, 400 120 L 400 400 L 0 400 Z"
+      fill="#C1EBE5"
+    />
+
+    <!-- Layer 3: Middle Cyan/Teal Wave -->
+    <path
+      d="M 0 392 C 140 380, 240 310, 400 180 L 400 400 L 0 400 Z"
+      fill="#2BBDAE"
+    />
+
+    <!-- Layer 4: Dark Deep Teal Wave (Bottom Front) -->
+    <path
+      d="M 0 396 C 160 388, 260 350, 400 240 L 400 400 L 0 400 Z"
+      fill="#009B8E"
+    />
+  </g>
+</svg>
