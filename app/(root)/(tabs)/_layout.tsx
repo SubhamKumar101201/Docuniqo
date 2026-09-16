@@ -103,7 +103,7 @@ export default function TabLayout() {
       />
 
       {/* SETTINGS */}
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="settings"
         options={{
           title: "Settings",
@@ -116,7 +116,7 @@ export default function TabLayout() {
             />
           ),
         }}
-      />
+      /> */}
     </Tabs>
   );
 }

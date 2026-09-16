@@ -1,7 +1,8 @@
 import { useClerk, useUser } from "@clerk/expo";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -46,11 +47,32 @@ export default function Profile() {
 
   const [contactObject, setContactObject] = useState<any>(undefined);
 
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const [isVerifying, setIsVerifying] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [isImageViewerVisible, setIsImageViewerVisible] = useState(false);
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+
+  const phoneStorageKey = `@docuniqo_phone_${user?.id}`;
+
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const loadPhoneNumber = async () => {
+      try {
+        const savedPhone = await AsyncStorage.getItem(phoneStorageKey);
+
+        setPhoneNumber(savedPhone || "");
+      } catch (error) {
+        console.error("Failed to load phone number:", error);
+      }
+    };
+
+    loadPhoneNumber();
+  }, [user?.id]);
 
   if (!isLoaded) {
     return (
@@ -77,7 +99,7 @@ export default function Profile() {
 
   const email = user.primaryEmailAddress?.emailAddress || "No email added";
 
-  const phone = user.primaryPhoneNumber?.phoneNumber || "No phone number added";
+  const phone = phoneNumber || "No phone number added";
 
   const usernameValue = user.username ? `@${user.username}` : "No username";
 
@@ -99,8 +121,12 @@ export default function Profile() {
       setUsername(user.username || "");
     }
 
-    if (type === "email" || type === "phone") {
+    if (type === "email") {
       setContactValue("");
+    }
+
+    if (type === "phone") {
+      setContactValue(phoneNumber);
     }
 
     setEditType(type);
@@ -193,6 +219,37 @@ export default function Profile() {
   };
 
   // -------------------------------------------------------
+  // UPDATE PHONE NUMBER - LOCAL ONLY
+  // -------------------------------------------------------
+
+  const updatePhoneNumber = async () => {
+    const cleanPhone = contactValue.trim();
+
+    if (!cleanPhone) {
+      setErrorMessage("Please enter a phone number.");
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      setErrorMessage("");
+
+      await AsyncStorage.setItem(`@docuniqo_phone_${user.id}`, cleanPhone);
+
+      setPhoneNumber(cleanPhone);
+
+      setEditType(null);
+      setContactValue("");
+    } catch (error: any) {
+      console.error("Phone number save failed:", error);
+
+      setErrorMessage(error?.message || "Unable to save your phone number.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // -------------------------------------------------------
   // CHANGE PROFILE IMAGE
   // -------------------------------------------------------
 
@@ -254,7 +311,7 @@ export default function Profile() {
   };
 
   // -------------------------------------------------------
-  // CREATE EMAIL / PHONE
+  // CREATE EMAIL
   // -------------------------------------------------------
 
   const startContactChange = async (type: ContactType) => {
@@ -294,26 +351,26 @@ export default function Profile() {
         setIsVerifying(true);
       }
 
-      if (type === "phone") {
-        const newPhone = await user.createPhoneNumber({
-          phoneNumber: contactValue.trim(),
-        });
+      // if (type === "phone") {
+      //   const newPhone = await user.createPhoneNumber({
+      //     phoneNumber: contactValue.trim(),
+      //   });
 
-        await user.reload();
+      //   await user.reload();
 
-        const phoneObject = user.phoneNumbers.find(
-          (item) => item.id === newPhone.id,
-        );
+      //   const phoneObject = user.phoneNumbers.find(
+      //     (item) => item.id === newPhone.id,
+      //   );
 
-        if (!phoneObject) {
-          throw new Error("Unable to create the phone number.");
-        }
+      //   if (!phoneObject) {
+      //     throw new Error("Unable to create the phone number.");
+      //   }
 
-        await phoneObject.prepareVerification();
+      //   await phoneObject.prepareVerification();
 
-        setContactObject(phoneObject);
-        setIsVerifying(true);
-      }
+      //   setContactObject(phoneObject);
+      //   setIsVerifying(true);
+      // }
     } catch (error: any) {
       console.error("Contact update failed:", error);
 
@@ -361,11 +418,11 @@ export default function Profile() {
         });
       }
 
-      if (editType === "phone") {
-        await user.update({
-          primaryPhoneNumberId: contactObject.id,
-        });
-      }
+      // if (editType === "phone") {
+      //   await user.update({
+      //     primaryPhoneNumberId: contactObject.id,
+      //   });
+      // }
 
       await user.reload();
 
@@ -390,6 +447,7 @@ export default function Profile() {
   const handleLogout = async () => {
     try {
       await signOut();
+      setIsLogoutModalVisible(false);
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -556,7 +614,7 @@ export default function Profile() {
 
         {/* LOGOUT */}
         <TouchableOpacity
-          onPress={handleLogout}
+          onPress={() => setIsLogoutModalVisible(true)}
           activeOpacity={0.85}
           className="mt-7 h-12 items-center justify-center rounded-xl border border-[#FECACA] bg-white"
         >
@@ -570,7 +628,7 @@ export default function Profile() {
         </TouchableOpacity>
 
         <Text className="mt-5 text-center text-xs text-[#94A3B8]">
-          Your profile information is securely managed by Clerk.
+          Your account information is securely managed by Docuniqo.
         </Text>
       </ScrollView>
 
@@ -769,62 +827,32 @@ export default function Profile() {
             {/* PHONE */}
             {editType === "phone" && (
               <View>
-                {!isVerifying ? (
-                  <>
-                    <InputLabel text="New phone number" />
+                <InputLabel text="Phone number" />
 
-                    <TextInput
-                      value={contactValue}
-                      onChangeText={setContactValue}
-                      placeholder="+91 9876543210"
-                      placeholderTextColor="#94A3B8"
-                      keyboardType="phone-pad"
-                      className="h-12 rounded-xl border border-[#DDE4EC] bg-[#F8FAFC] px-4 text-base text-[#0B1736]"
-                    />
+                <TextInput
+                  value={contactValue}
+                  onChangeText={setContactValue}
+                  placeholder="+91 9876543210"
+                  placeholderTextColor="#94A3B8"
+                  keyboardType="phone-pad"
+                  className="h-12 rounded-xl border border-[#DDE4EC] bg-[#F8FAFC] px-4 text-base text-[#0B1736]"
+                />
 
-                    <Text className="mt-2 text-xs leading-5 text-[#94A3B8]">
-                      Use international format, for example +91XXXXXXXXXX.
-                    </Text>
+                <Text className="mt-2 text-xs leading-5 text-[#94A3B8]">
+                  Your phone number is stored locally on this device.
+                </Text>
 
-                    <SaveButton
-                      label="Send verification code"
-                      loading={isSaving}
-                      onPress={() => startContactChange("phone")}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <View className="mb-5 rounded-xl bg-[#E8F8F7] px-4 py-3">
-                      <Text className="text-sm leading-5 text-[#0F7774]">
-                        We sent a verification code to{" "}
-                        <Text className="font-bold">{contactValue}</Text>
-                      </Text>
-                    </View>
-
-                    <InputLabel text="Verification code" />
-
-                    <TextInput
-                      value={verificationCode}
-                      onChangeText={setVerificationCode}
-                      placeholder="Enter 6-digit code"
-                      placeholderTextColor="#94A3B8"
-                      keyboardType="number-pad"
-                      maxLength={6}
-                      className="h-12 rounded-xl border border-[#DDE4EC] bg-[#F8FAFC] px-4 text-center text-lg font-semibold tracking-[4px] text-[#0B1736]"
-                    />
-
-                    <SaveButton
-                      label="Verify phone"
-                      loading={isSaving}
-                      onPress={verifyContact}
-                    />
-                  </>
-                )}
+                <SaveButton
+                  label="Save phone number"
+                  loading={isSaving}
+                  onPress={updatePhoneNumber}
+                />
               </View>
             )}
           </View>
         </KeyboardAvoidingView>
       </Modal>
+      {/* FULL-SCREEN IMAGE VIEW MODAL */}
       <Modal
         visible={isImageViewerVisible}
         transparent
@@ -865,6 +893,54 @@ export default function Profile() {
               </Text>
             </View>
           )}
+        </View>
+      </Modal>
+      {/* LOGOUT CONFIRMATION MODAL */}
+      <Modal
+        visible={isLogoutModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsLogoutModalVisible(false)}
+      >
+        <View className="flex-1 items-center justify-center bg-black/40 px-6">
+          <View className="w-full max-w-[380px] rounded-2xl bg-white p-6">
+            {/* ICON */}
+            <View className="mb-4 h-12 w-12 items-center justify-center rounded-full bg-[#FEF2F2]">
+              <Ionicons
+                name="log-out-outline"
+                size={24}
+                color={COLORS.danger}
+              />
+            </View>
+
+            {/* TITLE */}
+            <Text className="text-xl font-bold text-[#0B1736]">Log out?</Text>
+
+            {/* MESSAGE */}
+            <Text className="mt-2 text-sm leading-5 text-[#64748B]">
+              Are you sure you want to log out of your Docuniqo account?
+            </Text>
+
+            {/* BUTTONS */}
+            <View className="mt-6 flex-row gap-3">
+              <TouchableOpacity
+                onPress={() => setIsLogoutModalVisible(false)}
+                activeOpacity={0.85}
+                className="h-12 flex-1 items-center justify-center rounded-xl border border-[#DDE4EC] bg-white"
+              >
+                <Text className="text-sm font-bold text-[#64748B]">Cancel</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={handleLogout}
+                activeOpacity={0.85}
+                disabled={isSaving}
+                className="h-12 flex-1 items-center justify-center rounded-xl bg-[#EF4444]"
+              >
+                <Text className="text-sm font-bold text-white">Log out</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </Modal>
     </View>

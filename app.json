@@ -43,7 +43,8 @@
       "@clerk/expo",
       "expo-secure-store",
       "@clerk/expo-google-signin",
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true,

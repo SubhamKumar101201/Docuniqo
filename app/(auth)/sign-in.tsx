@@ -132,7 +132,7 @@ export default function SignIn() {
         strategy: "oauth_google",
         redirectUrl: AuthSession.makeRedirectUri({
           scheme: "docuniqo",
-          path: "/",
+          path: "oauth-callback",
         }),
       });
 
@@ -149,6 +149,7 @@ export default function SignIn() {
       setIsGoogleLoading(false);
     }
   };
+
   // const onGoogleSignInPress = async () => {
   //   try {
   //     const { createdSessionId, setActive } = await startSSOFlow({

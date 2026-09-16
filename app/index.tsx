@@ -1,5 +1,6 @@
 import { WavyBackground } from "@/components/WavyBackground";
 import { useAuth } from "@clerk/expo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { Image, Text, View } from "react-native";
@@ -15,7 +16,7 @@ export default function Index() {
 
     const checkAppState = async () => {
       // Small opening/splash delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Already logged in → Home
       if (isSignedIn) {
@@ -24,8 +25,8 @@ export default function Index() {
       }
 
       // Check whether onboarding was already completed/skipped
-      // const onboardingCompleted = await AsyncStorage.getItem(ONBOARDING_KEY);
-      const onboardingCompleted = false; // DEV ONLY — restore AsyncStorage check before production uncomment the previous line and remove this line
+      const onboardingCompleted = await AsyncStorage.getItem(ONBOARDING_KEY);
+      // const onboardingCompleted = false; // DEV ONLY — restore AsyncStorage check before production uncomment the previous line and remove this line
 
       if (onboardingCompleted) {
         // Returning user but not logged in → Sign In

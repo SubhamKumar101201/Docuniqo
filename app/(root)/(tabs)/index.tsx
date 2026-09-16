@@ -54,7 +54,7 @@ export default function HomeScreen() {
 
               <Pressable
                 className="h-9 w-9 items-center justify-center rounded-full"
-                activeOpacity={0.7}
+                // activeOpacity={0.7}
               >
                 <Ionicons
                   name="notifications-outline"
@@ -109,7 +109,9 @@ export default function HomeScreen() {
                 Recent Scans
               </Text>
 
-              <Pressable activeOpacity={0.7}>
+              <Pressable
+              // activeOpacity={0.7}
+              >
                 <Text className="text-[10px] font-bold text-[#16AFA9]">
                   See All
                 </Text>
@@ -121,7 +123,7 @@ export default function HomeScreen() {
               {recentScans.map((scan) => (
                 <Pressable
                   key={scan.id}
-                  activeOpacity={0.7}
+                  // activeOpacity={0.7}
                   className="flex-row items-center rounded-xl bg-white py-2"
                 >
                   {/* Document preview */}
